@@ -1,0 +1,28 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1482942128709.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "ED887C63",
+    "lastKnownWriteTime" : 0,
+    "last_content_update" : 1482942128709,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "1es694lm2i",
+        "caption" : "stuPor",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=stuPor&cache_key=1es694lm2i",
+        "displayedObservations" : "649",
+        "environment" : "",
+        "object" : "stuPor",
+        "totalObservations" : "649",
+        "variables" : "33"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}

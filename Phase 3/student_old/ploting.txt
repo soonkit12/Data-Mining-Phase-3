@@ -1,0 +1,34 @@
+
+# two-way comparison on the number of males and females vs final grade rates in proportion using the train data frame stuMat
+counts = prop.table(table(stuMat$sex, stuMat$G3))
+barplot(counts, main="Sex VS Final Grade (G3) rates in proportion for StudentMat", xlab="G3", col=c("darkblue","red"), legend = rownames(counts), beside=TRUE)
+# two-way comparison on the number of males and females vs final grade rates in proportion using the train data frame stuPor
+counts2 = prop.table(table(stuPor$sex, stuPor$G3))
+barplot(counts2, main="Sex VS Final Grade (G3) rates in proportion for StudentPor", xlab="G3", col=c("darkblue","red"), legend = rownames(counts2), beside=TRUE)
+
+#visualize correlation G3 vs G1 and G2
+pairs(~G3+G1+G2,data = stuMat,col=c("red","blue","green"), main = "Correlationship for G3 with G1 and G2 - StudentMath")
+pairs(~G3+G1+G2,data = stuPor,col=c("red","blue","green"), main = "Correlationship for G3 with G1 and G2 - StudentPor")
+
+#k-means clustering - based on higher variable for student wants to take higher education (binary: yes or no) with 2 cluster (only yes or no)
+
+#view original data cluster assignments are random - stuMath
+ggplot(stuMat, aes(G1, G2, color = higher)) + geom_point() + ggtitle("Random cluster for G1 vs G2 on higher variable")
+# set the seed to ensure reproducibility
+set.seed(20)
+# R will try 20 different random starting assignments and then select the one with the lowest within cluster variation.
+stuMatCluster <- kmeans(stuMat[, 31:32], 2, nstart = 20)
+stuMatCluster
+#compare the clusters with the higher (yes or no)
+table(stuMatCluster$cluster, stuMat$higher)
+stuMatCluster$cluster <- as.factor(stuMatCluster$cluster)
+ggplot(stuMat, aes(G1, G2,  color = stuMatCluster$cluster)) + geom_point() + ggtitle("2 cluster for  G1 vs G2 on higher variable")
+
+#view original data cluster assignments are random - stuPor
+ggplot(stuPor, aes(G1, G2, color = higher)) + geom_point() + ggtitle("Random cluster for G1 vs G2 on higher variable")
+set.seed(20)
+stuPorCluster <- kmeans(stuPor[, 31:32], 2, nstart = 20)
+stuPorCluster
+table(stuPorCluster$cluster, stuPor$higher)
+stuPorCluster$cluster <- as.factor(stuPorCluster$cluster)
+ggplot(stuPor, aes(G1, G2,  color = stuPorCluster$cluster)) + geom_point() + ggtitle("2 cluster for  G1 vs G2 on higher variable")

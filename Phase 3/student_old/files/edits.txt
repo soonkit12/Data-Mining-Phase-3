@@ -1,0 +1,54 @@
+#numerical rules
+age >= 15
+age <= 22
+Medu >= 0
+Medu <= 4  
+Fedu >= 0
+Fedu <= 4 
+failures >= 0
+failures <= 4
+famrel >= 1
+famrel <= 5
+freetime >= 1
+freetime <= 5
+goout >= 1
+goout <= 5
+Dalc >= 1
+Dalc <= 5
+Walc  >= 1
+Walc <= 5
+health >= 1
+health <= 5
+absences >= 0
+absences <= 93 
+G1 >= 0
+G1 <= 20    
+G2 >= 0
+G2 <= 20    
+G3 >= 0
+G3 <= 20
+traveltime >= 1
+traveltime <= 4
+studytime >= 1
+studytime <= 4
+
+
+#categorical rules
+school %in% c("GP","MS")
+sex %in% c("F","M")
+address %in% c("R","U")
+famsize %in% c("GT3","LE3")
+Pstatus %in% c("A","T")
+Mjob %in% c("at_home","health","other","services","teacher")    
+Fjob  %in% c("at_home","health","other","services","teacher")   
+reason  %in% c("course","home","reputation","other")  
+guardian %in% c("father","mother","other")
+schoolsup %in% c("no","yes")
+famsup %in% c("no","yes")  
+paid %in% c("no","yes")      
+activities %in% c("no","yes") 
+nursery %in% c("no","yes") 
+higher %in% c("no","yes")   
+internet %in% c("no","yes")  
+romantic %in% c("no","yes")
+

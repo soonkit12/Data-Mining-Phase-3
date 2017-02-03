@@ -1,0 +1,99 @@
+library(Amelia)
+library(editrules)
+library(shiny)
+library(DT)
+library(ggplot2)
+
+#reading file
+stuMat <- read.table(file = "files/student-mat.csv", header = TRUE, sep =";")
+stuPor <- read.table(file = "files/student-por.csv", header = TRUE, sep =";")
+
+#check dimension 
+dim(stuMat)
+dim(stuPor)
+
+#understand summary of the dataset
+summary(stuMat)
+summary(stuPor)
+
+#check structure of dataset
+str(stuMat)
+str(stuPor)
+
+#check missing value
+sum(is.na(stuMat))
+sum(is.na(stuPor))
+
+#check missing value again for each variable
+sapply(stuMat,function(x) sum(is.na(x)))
+sapply(stuPor,function(x) sum(is.na(x)))
+
+# the Amelia package has a special plotting function missmap() that will plot your dataset and highlight missing values 
+#install.packages("Amelia")
+missmap(stuMat, main = "Missing values vs observed for studentMath")
+missmap(stuPor, main = "Missing values vs observed for studentPor")
+
+# detects rows in a data.frame that do not contain any missing value 
+complete.cases(stuMat)
+complete.cases(stuPor)
+
+# calculate percentage complete cases
+complete_case_percent <- 100*length(which(complete.cases(stuMat)))/nrow(stuMat)
+paste("Percentage of complete observations is ", complete_case_percent, "%", sep = "")
+complete_case_percent <- 100*length(which(complete.cases(stuPor)))/nrow(stuPor)
+paste("Percentage of complete observations is ", complete_case_percent, "%", sep = "")
+
+#Does the data contain other special values?
+any(sapply(stuMat, is.nan))
+any(sapply(stuPor, is.nan))
+
+#check duplicate record
+anyDuplicated(stuMat)
+anyDuplicated(stuPor)
+
+#check outlier for absences
+boxplot(stuPor$absences, main = "Boxplot for stuPor$absences")
+boxplot.stats(stuPor$absences)$out
+#[1] 16 16 24 22 16 32 16 16 30 21 16 18 16 26 16 16 22 18 18 16 21
+boxplot(stuMat$absences, main = "Boxplot for stuMat$absences")
+boxplot.stats(stuMat$absences)$out
+#[1] 25 54 26 56 24 28 22 21 75 22 30 38 22 40 23
+# Both outlier stuMat$absences and stuPor$absences should be acceptable since the range for number of school absences (numeric: from 0 to 93) 
+# We need this data value to check any impact on the student's grade.
+
+#check outlier for  first period grade G1 
+boxplot(stuMat$G1, main = "Boxplot for stuMat$G1")
+boxplot(stuPor$G1, main = "Boxplot for stuPor$G1")
+boxplot.stats(stuPor$G1)$out
+#[1]  0 18 18 18 18 18  5  4  4  5 18  5  5 18 19  5 
+#The outlier stuPor$G1 is acceptable. Since, the target range for Grade is from 0 to 20, so we wont 
+#correct it because we wanted to observe the relationship for grade G1, G2 and G3
+
+#check outlier for second period grade G2
+boxplot(stuMat$G2, main = "Boxplot for stuMat$G2")
+boxplot.stats(stuMat$G2)$out
+#[1] 0 0 0 0 0 0 0 0 0 0 0 0 0
+boxplot(stuPor$G2, main = "Boxplot for stuPor$G2")
+boxplot.stats(stuPor$G2)$out
+#[1] 18 18 18 18 19 18 18 18 18 18  0  5 18  0  0  5 18 18  0  0  0 18  0  5 18
+#The outlier stuMat$G2 and stuPor$G2  is acceptable. Since, the target range for Grade is from 0 to 20, so we wont 
+#correct it because we wanted to observe the relationship for grade G1, G2 and G3
+
+ 
+#check outlier for final grade (G3)
+boxplot(stuMat$G3, main = "Boxplot for stuMat$G3")
+boxplot(stuPor$G3, main = "Boxplot for stuMat$G3")
+outliers_SL <- boxplot.stats(stuPor$G3)$out
+outliers_SL
+#[1] 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+#The outlier stuPor$G3 is acceptable. Since, the target range for Grade is from 0 to 20, so we wont 
+#correct it because we wanted to observe the relationship for grade G1, G2 and G3
+
+#check rules obey. the editrule file was created according to the dataset's attribute information
+E <- editfile("files/edits.txt")
+ve <- violatedEdits(E, stuMat)
+summary(ve)
+veP <- violatedEdits(E, stuPor)
+summary(veP)
+
+
